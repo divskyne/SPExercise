@@ -26,12 +26,12 @@ public class SPController {
 	@Autowired
 	SPRepository litteRepo;
 	
-	@PostMapping("/Model")
+	@PostMapping("/person")
 	private SpringData createPerson(@Valid @RequestBody SpringData m) {
 		return litteRepo.save(m);
 	}
 	
-	@GetMapping("person/{id}")
+	@GetMapping("/person/{id}")
 	public SpringData getPersonbyID(@PathVariable(value="id")Long personID)
 	{
 		return litteRepo.findById(personID).orElseThrow(()->new ResourceNotFoundException("Model", "id", personID));
