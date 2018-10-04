@@ -1,11 +1,15 @@
 package com.qa.spring.integration;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.qa.spring.DataBaseApplication;
 import com.qa.spring.model.SpringData;
 import com.qa.spring.repo.SPRepository;
@@ -34,6 +39,11 @@ public class IntegrationTest {
 	
 	@Before
 	public void clearDB() {
+		repository.deleteAll();
+	}
+	
+	@After
+	public void clearDBED() {
 		repository.deleteAll();
 	}
 	
@@ -57,5 +67,34 @@ public class IntegrationTest {
 		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 		.andExpect(jsonPath("$.name", is("Robert")));
 	}
-
+	
+	@Test
+	public void findPerson5() throws Exception {
+		addPersonToDatabaseTest();
+		Long ID = repository.findByName("Robert").get().getId();
+		mvc.perform(get("/api/person/"+ID)
+				.contentType(MediaType.APPLICATION_JSON))
+		.andExpect(status().isOk())
+		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.name", is("Robert")));
+	}
+	
+	@Test
+	public void deletePerson3() throws Exception {
+		addPersonToDatabaseTest();
+		Long ID = repository.findByName("Robert").get().getId();
+		mvc.perform(delete("/api/person/"+ID)
+				.contentType(MediaType.APPLICATION_JSON))
+		.andExpect(status().isOk());
+	}
+	
+	@Test
+	public void putPersonToDatabaseTest4() throws Exception {
+		addPersonToDatabaseTest();
+		Long ID = repository.findByName("Robert").get().getId();
+		mvc.perform(put("/api/person/"+ID)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"name\":\"Walberg\",\"address\":\"Atlantis\",\"age\":200}"))
+		.andExpect(status().isOk());
+	}
 }

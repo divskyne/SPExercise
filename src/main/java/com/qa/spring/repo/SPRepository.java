@@ -18,7 +18,5 @@ public interface SPRepository extends JpaRepository<SpringData,Long> {
 	 * @return
 	 */
 	Optional<SpringData> findByName(String name);
-	
-	//List<SpringData> findByName(String name);
 
 }
