@@ -22,6 +22,28 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = {"creationDate","lastModified"}, allowGetters = true)
 public class SpringData implements Serializable
 {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	@NotBlank
+	private String name;
+	@NotBlank
+	private String address;
+	
+	private Integer age;
+	
+	@Column(nullable = false, updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreatedDate
+	private Date creationDate;
+	
+	@Column(nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@LastModifiedDate
+	private Date lastModified;
+	
+	
 	public SpringData(String string, String string2, int i) {
 		name = string;
 		address = string2;
@@ -79,24 +101,4 @@ public class SpringData implements Serializable
 	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
 	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	@NotBlank
-	private String name;
-	@NotBlank
-	private String address;
-	
-	private Integer age;
-	
-	@Column(nullable = false, updatable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	@CreatedDate
-	private Date creationDate;
-	
-	@Column(nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	@LastModifiedDate
-	private Date lastModified;
 }
