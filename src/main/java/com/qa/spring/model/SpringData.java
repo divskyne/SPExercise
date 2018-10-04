@@ -22,6 +22,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = {"creationDate","lastModified"}, allowGetters = true)
 public class SpringData implements Serializable
 {
+	public SpringData(String string, String string2, int i) {
+		name = string;
+		address = string2;
+		age = i;
+	}
+	
+	public SpringData() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public long getId() {
 		return id;
 	}
