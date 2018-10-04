@@ -22,11 +22,18 @@ public class RepoTest {
 	private SPRepository myRepo;
 	
 	@Test
-	private void retrieveByIDTest() {
+	public void retrieveByIDTest() {
 		SpringData model1 = new SpringData("Bob", "Space", 12);
 		entityManager.persist(model1);
 		entityManager.flush();
 		assertTrue(myRepo.findById(model1.getId()).isPresent());
 	}
-
+	
+	@Test
+	public void retrieveByNameTest() {
+		SpringData model1 = new SpringData("Marley", "Space", 22);
+		entityManager.persist(model1);
+		entityManager.flush();
+		assertTrue(myRepo.findByName(model1.getName()).isPresent());
+	}
 }

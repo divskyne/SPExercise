@@ -1,5 +1,6 @@
 package com.qa.spring.repo;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,5 +18,7 @@ public interface SPRepository extends JpaRepository<SpringData,Long> {
 	 * @return
 	 */
 	Optional<SpringData> findByName(String name);
+	
+	//List<SpringData> findByName(String name);
 
 }
